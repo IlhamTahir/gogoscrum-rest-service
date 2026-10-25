@@ -58,7 +58,6 @@ public class ProjectController extends BaseController {
     @Operation(summary = "Search projects, support sorting")
     @Parameters({@Parameter(name = "filter", description = "Project search filter")})
     @PostMapping("/search")
-    @RolesAllowed({User.ROLE_ADMIN})
     public DtoQueryResult<Dto> search(@RequestBody ProjectFilter filter) {
         EntityQueryResult<Project> queryResult = projectService.search(Objects.requireNonNullElse(filter, new ProjectFilter()));
         return queryResult.toDto();
