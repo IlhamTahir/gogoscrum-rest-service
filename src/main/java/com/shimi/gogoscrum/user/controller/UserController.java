@@ -75,12 +75,15 @@ public class UserController extends BaseController {
      * common project with the current user. This is to avoid exposing all users in the system to each other.
      *
      * WARNING: DON'T CALL THIS API FROM THE CLIENT SIDE IF YOU ARE RUNNING IN SAAS MODE!
+     *
+     * @deprecated Use {@link #search(UserFilter)} instead.
      */
     @Operation(summary = "Search Users")
     @Parameters({
             @Parameter(name = "filter", description = "The search filter")})
     @GetMapping
-    public DtoQueryResult<Dto> search(UserFilter filter) {
+    @Deprecated
+    public DtoQueryResult<Dto> query(UserFilter filter) {
         filter.setEnabled(Boolean.TRUE);
         EntityQueryResult<User> queryResult = userService.search(filter);
         return queryResult.toDto();
@@ -90,7 +93,7 @@ public class UserController extends BaseController {
     @Parameters({@Parameter(name = "filter", description = "The search filter")})
     @PostMapping("/search")
     @RolesAllowed({User.ROLE_ADMIN})
-    public DtoQueryResult<Dto> searchByPost(@RequestBody UserFilter filter) {
+    public DtoQueryResult<Dto> search(@RequestBody UserFilter filter) {
         EntityQueryResult<User> queryResult = userService.search(filter);
         return queryResult.toDto();
     }
